@@ -10,8 +10,7 @@ class Criterion {
 
 	public Criterion(String description, String hab){
 		this.description = description
-		this.hab = hab
-		
+		this.hab = hab	
 	}
 
 	@Override
