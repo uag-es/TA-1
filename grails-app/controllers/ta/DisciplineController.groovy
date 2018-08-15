@@ -91,7 +91,27 @@ class DisciplineController {
             '*'{ render status: NO_CONTENT }
         }
     }
-
+	
+	@Transactional
+	def criarSalvarDisciplina() {
+		Discipline disciplineInstance = new Discipline(params)
+		if (Discipline.findByDiscipline(disciplineInstance.getDiscipline()) == null) {
+			if (disciplineInstance.hasErrors()) {
+				respond disciplineInstance.errors, view: 'create'
+				return
+			}
+			if(!disciplineInstance.save(flush: true)){
+				render(view: "create", model: [disciplineInstance: disciplineInstance])
+				return
+			}
+			flash.message = message(code: 'default.created.message', args: [
+				message(code: 'discipline.label', default: 'Discipline'),
+				disciplineInstance.id
+			])
+			redirect(action: "show", id: disciplineInstance.id)
+		}
+	}
+	
     protected void notFound() {
         request.withFormat {
             form multipartForm {
