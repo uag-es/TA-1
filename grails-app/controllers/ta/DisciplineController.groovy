@@ -112,6 +112,25 @@ class DisciplineController {
 		}
 	}
 	
+	def gerarArquivo(){
+		def disciplina = Discipline.list().findAll()
+		StringBuilder sb = new StringBuilder();
+		sb.append("Discipline List"+"\r\n\r\n");
+		sb.append("Discipline name ---- Class  ---- Professor"+"\r\n\r\n");
+		for (Discipline s : disciplina)	{
+			if(s.discipline != ""){
+				sb.append(s.discipline.toString()+" ---- "+s.classTime.toString()+" ---- "+s.professor.toString());
+				sb.append("\r\n")
+			}
+		}
+		File file = new File("Discipline.txt")
+		FileWriter fw = new FileWriter(file.getAbsoluteFile())
+		BufferedWriter bw = new BufferedWriter(fw)
+		bw.write(sb.toString())
+		bw.close();
+		redirect(action: "index")
+	}
+
     protected void notFound() {
         request.withFormat {
             form multipartForm {
