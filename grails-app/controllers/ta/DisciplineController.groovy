@@ -1,7 +1,5 @@
 package ta
 
-
-
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
@@ -91,7 +89,46 @@ class DisciplineController {
             '*'{ render status: NO_CONTENT }
         }
     }
-
+	
+	@Transactional
+	def criarSalvarDisciplina() {
+		Discipline disciplineInstance = new Discipline(params)
+		if (Discipline.findByDiscipline(disciplineInstance.getDiscipline()) == null) {
+			if (disciplineInstance.hasErrors()) {
+				respond disciplineInstance.errors, view: 'create'
+				return
+			}
+			if(!disciplineInstance.save(flush: true)){
+				render(view: "create", model: [disciplineInstance: disciplineInstance])
+				return
+			}
+			flash.message = message(code: 'default.created.message', args: [
+				message(code: 'discipline.label', default: 'Discipline'),
+				disciplineInstance.id
+			])
+			redirect(action: "show", id: disciplineInstance.id)
+		}
+	}
+	
+	def gerarArquivo(){
+		def disciplina = Discipline.list().findAll()
+		StringBuilder sb = new StringBuilder();
+		sb.append("Discipline List"+"\r\n\r\n");
+		sb.append("Discipline name ---- Class  ---- Professor"+"\r\n\r\n");
+		for (Discipline s : disciplina)	{
+			if(s.discipline != ""){
+				sb.append(s.discipline.toString()+" ---- "+s.classTime.toString()+" ---- "+s.professor.toString());
+				sb.append("\r\n")
+			}
+		}
+		File file = new File("Discipline.txt")
+		FileWriter fw = new FileWriter(file.getAbsoluteFile())
+		BufferedWriter bw = new BufferedWriter(fw)
+		bw.write(sb.toString())
+		bw.close();
+		redirect(action: "index")
+	}
+	
     protected void notFound() {
         request.withFormat {
             form multipartForm {
