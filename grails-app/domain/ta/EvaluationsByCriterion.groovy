@@ -24,7 +24,7 @@ class EvaluationsByCriterion {
 		doMedia();
 	}
 
-	public void doMedia(){
+	private void doMedia(){
 		StudentController sc = new StudentController()
 		double tempMedia = 0;
 		int qtdEvaluations = 0;
