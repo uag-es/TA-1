@@ -1,4 +1,3 @@
-
 <%@ page import="ta.Discipline" %>
 <!DOCTYPE html>
 <html>
@@ -13,7 +12,6 @@
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
 				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
-				<li><g:link class="list" action="agruparPorAluno"><g:message code="Agrupar por aluno" /></g:link></li>
 			</ul>
 		</div>
 		<div id="list-discipline" class="content scaffold-list" role="main">
@@ -24,31 +22,26 @@
 			<table>
 			<thead>
 					<tr>
-					
-						<g:sortableColumn property="discipline" title="${message(code: 'discipline.discipline.label', default: 'Discipline')}" />
-					
-						<g:sortableColumn property="classTime" title="${message(code: 'discipline.classTime.label', default: 'Class Time')}" />
-					
-						<g:sortableColumn property="professor" title="${message(code: 'discipline.professor.label', default: 'Professor')}" />
-					
+
+						<g:sortableColumn property="discipline" title="${message(code: 'discipline.label', default: 'disciplina')}" />
+						<g:sortableColumn property="students" title="${message(code: 'discipline.students.name.label', default: 'studentsList')}" />
+						
 					</tr>
 				</thead>
 				<tbody>
 				<g:each in="${disciplineInstanceList}" status="i" var="disciplineInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
-						<td><g:link action="show" id="${disciplineInstance.id}">${fieldValue(bean: disciplineInstance, field: "discipline")}</g:link></td>
+						<td>${disciplineInstance['disciplina']}</td>
+						<td>${disciplineInstance['studentsList']}</td>
 					
-						<td><g:formatDate date="${disciplineInstance.classTime}" /></td>
-					
-						<td>${fieldValue(bean: disciplineInstance, field: "professor")}</td>
 					
 					</tr>
 				</g:each>
 				</tbody>
 			</table>
 			<div class="pagination">
-				<g:paginate total="${disciplineInstanceCount ?: 0}" />
+				<g:paginate total="${disciplineInstance?: 1 }" />
 			</div>
 		</div>
 	</body>
