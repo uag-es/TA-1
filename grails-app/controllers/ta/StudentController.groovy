@@ -58,7 +58,7 @@ class StudentController {
 		[qtdEvaluations, tempMedia]
 	}
 
-	public boolean checkTotalAverage(double mediaAluno) {
+	private boolean checkTotalAverage(double mediaAluno) {
 		double media = 0
 		for (Student student : Student.list()) {
 			media += student.average
