@@ -91,7 +91,26 @@ class DisciplineController {
             '*'{ render status: NO_CONTENT }
         }
     }
-
+	
+	
+	/*para a funcionalidade ser executada corretamente ambos, estudante e disciplina, precisam serem editados na pagina Editar de 
+	 * cada objeto para que a ligação entre eles seja efetuada. 
+	 */
+	def agruparPorAluno(){
+		def lista = Discipline.list(params)
+		def listaAgrupada = [:]
+			lista.each{
+				if(listaAgrupada.containsKey(it.students)){
+					listaAgrupada[it.discipline]['disciplina'] += it.discipline
+					listaAgrupada[it.students]['studentsList'] += it.students
+				}
+				else{
+					listaAgrupada[it.discipline] = ['disciplina':it.discipline, 'studentsList':it.students]
+				}
+			}
+			[disciplineInstanceList: listaAgrupada.values(), disciplineInstanceTotal: listaAgrupada.size()]
+	}
+	
     protected void notFound() {
         request.withFormat {
             form multipartForm {
