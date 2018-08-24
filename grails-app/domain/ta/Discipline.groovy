@@ -8,7 +8,7 @@ class Discipline {
 	static hasMany = [students : Student]
 	
     static constraints = {
-		discipline blank: false
+		discipline blank: false, size: 2..20
 		classTime blank: false
 		professor blank: false
     }

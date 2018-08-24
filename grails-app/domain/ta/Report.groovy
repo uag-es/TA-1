@@ -42,4 +42,55 @@ class Report {
 	public String toString() {
 		return "Nome: " + name + " | Tipo: " + tipo + " | Valor: " + valor + " |Avaliação: " + avaliacao
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((avaliacao == null) ? 0 : avaliacao.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result
+				+ ((students == null) ? 0 : students.hashCode());
+		result = prime * result + ((tipo == null) ? 0 : tipo.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(valor);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Report other = (Report) obj;
+		if (avaliacao == null) {
+			if (other.avaliacao != null)
+				return false;
+		} else if (!avaliacao.equals(other.avaliacao))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (students == null) {
+			if (other.students != null)
+				return false;
+		} else if (!students.equals(other.students))
+			return false;
+		if (tipo == null) {
+			if (other.tipo != null)
+				return false;
+		} else if (!tipo.equals(other.tipo))
+			return false;
+		if (Double.doubleToLongBits(valor) != Double
+				.doubleToLongBits(other.valor))
+			return false;
+		return true;
+	}
 }
